@@ -12,14 +12,14 @@ CREATE TABLE IF NOT EXISTS User(
     mail VARCHAR(100) NOT NULL,
     password VARCHAR(50) NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
-    basketId INT UNSIGNED NOT NULL,
     PRIMARY KEY(userId)
 )ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS Basket(
     basketId INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    basketStatus ENUM("inDelivery" , "stable" , "delivered") NOT NULL, 
-    taxes DECIMAL(10,2) NOT NULL,
+    basketStatus ENUM("inDelivery" , "stable" , "delivered") NOT NULL  DEFAULT  "stable", 
+    taxes DECIMAL(4,2) NOT NULL DEFAULT 15.50,
+    userId INT UNSIGNED NOT NULL,
     PRIMARY KEY(basketId)
 )ENGINE=InnoDB; 
 
@@ -86,6 +86,10 @@ CREATE TABLE IF NOT EXISTS Categoriser(
     produitId INT UNSIGNED,
     PRIMARY KEY(produitId,categorieId)
 )ENGINE=InnoDB;
+
+ALTER TABLE Basket 
+ADD CONSTRAINT FK_Basket_userID   FOREIGN KEY (userId) REFERENCES User(userId) ;
+
 
 
 ALTER TABLE Commander 
