@@ -6,10 +6,10 @@ Use Synelia;
 CREATE TABLE IF NOT EXISTS User(
     userId INT UNSIGNED NOT NULL AUTO_INCREMENT,
     status ENUM("admin" , "user") NOT NULL,
-    firstName VARCHAR(70) NOT NULL,
-    lastName VARCHAR(70) NOT NULL,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
     birthDay DATE NOT NULL,
-    mail VARCHAR(100) NOT NULL,
+    mail VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(50) NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(userId)

@@ -18,7 +18,7 @@ function Connection(callable $callback ,$dbName , ...$args) {
     }
     try {
        $result = $callback($conn , ...$args);
-    } catch (\Throwable $th) {
+    } catch (Throwable $th) {
         echo "$th";
     }finally{
         $conn->close();

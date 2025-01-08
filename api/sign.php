@@ -1,6 +1,5 @@
 <?php
 $GLOBALS["root"] = $_SERVER['DOCUMENT_ROOT']."/Synelia";
-echo "\n".$GLOBALS["root"]."ggggg\n";
 include $GLOBALS['root']."/modules/sql/User.php";
 include $GLOBALS['root']."/modules/sql/Basket.php";
 
@@ -11,6 +10,9 @@ function FilterString($name): array
     }
     if (strlen($name) <= 3) {
         return ["data"=>$name , "error"=>"your name is too short."];
+    }
+    if (strlen($name) >= 50) {
+        return ["data"=>$name , "error"=>"your name is too long."];
     }
     return ["data"=>$name , "error"=>""];
 }
@@ -107,8 +109,10 @@ try {
             return;
         }
         if(CreateNewUser($filtredData["firstName"]["data"],$filtredData["lastName"]["data"] ,$filtredData["password"]["data"] ,$filtredData["mail"] ) == true)
-        {   echo json_encode(["message"=> "We have successfully created your account.","succ"=>true]);
-            echo json_encode(CreateNewBasket(1))  ;  
+        {   
+            $userData = FindLastUser() ;
+            CreateNewBasket($userData["userId"]);
+            echo json_encode(["message"=> "We have successfully created your account.","succ"=>true]);
         }
     }
 } catch (Throwable $th) {
