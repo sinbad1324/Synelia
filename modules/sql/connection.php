@@ -7,22 +7,28 @@
  * The SecondParams is the db name
  * Return your callback result.
  * @template  T
- * @param callable $callback :T
  * @param string $dbName 
  * @return T
  */
-function Connection(callable $callback ,$dbName , ...$args) {
-    $conn = new mysqli("localhost", "root" , "1324",$dbName);
-    if (!$conn) {
-        echo"connection false ".mysqli_connect_error();
+
+class Connection
+{
+    static private $connection;
+    static public function GetConnection($dbName)
+    {
+        if (empty(self::$connection)) {
+            self::$connection = new mysqli("localhost", "root", "1324", $dbName);
+            if (!self::$connection) {
+                echo "connection false " . mysqli_connect_error();
+                return null;
+            }
+            return self::$connection;
+        } else {
+            return self::$connection;
+        }
     }
-    try {
-       $result = $callback($conn , ...$args);
-    } catch (Throwable $th) {
-        echo "$th";
-    }finally{
-        $conn->close();
-    }
-    return $result;
 }
+
+
+
 ?>
