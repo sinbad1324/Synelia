@@ -6,12 +6,14 @@ Use Synelia;
 CREATE TABLE IF NOT EXISTS User(
     userId INT UNSIGNED NOT NULL AUTO_INCREMENT,
     status ENUM("admin" , "user") NOT NULL,
-    firstName VARCHAR(70) NOT NULL,
-    lastName VARCHAR(70) NOT NULL,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
     birthDay DATE NOT NULL,
-    mail VARCHAR(100) NOT NULL,
+    mail VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(50) NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
+    urlToVerified VARCHAR(25) NULL UNIQUE,
+    verifieTime DATETIME NOT NULL,
     PRIMARY KEY(userId)
 )ENGINE=InnoDB;
 
@@ -71,6 +73,7 @@ CREATE TABLE IF NOT EXISTS Choisire(
     produitId INT UNSIGNED,
     PRIMARY KEY(produitId,commandeId)
 )ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS Promotion(
     commandeId INT UNSIGNED ,
     promotionId INT UNSIGNED,
@@ -110,7 +113,7 @@ ADD CONSTRAINT FK_choisire_produitId   FOREIGN KEY (produitId) REFERENCES Produc
 ALTER TABLE Promotion 
 ADD CONSTRAINT FK_promotion_commandeId FOREIGN KEY (commandeId) REFERENCES Commande(commandeId) ;
 ALTER TABLE Promotion 
-ADD CONSTRAINT FK_promotion_promotionId  FOREIGN KEY (promotionId) REFERENCES Promotion(promotionId) ;
+ADD CONSTRAINT FK_promotion_promotionId  FOREIGN KEY (promotionId) REFERENCES PromotionCode(promotionId) ;
 
 
 ALTER TABLE Noter 
