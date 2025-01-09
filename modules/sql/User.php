@@ -36,9 +36,6 @@ function FindOneUserWithMail($email) : array {
    },"Synelia" , $email);
 }
 
-function FindUsers($Condition) : array {
-   
-}
 function FindLastUser() : array {
    return Connection(function($conn) : array
    {
