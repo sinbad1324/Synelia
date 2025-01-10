@@ -4,7 +4,7 @@ include $GLOBALS['root'] . "/modules/sql/User.php";
 include $GLOBALS['root'] . "/modules/sql/Basket.php";
 include $GLOBALS['root'] . "/modules/filters/filterUser.php";
 include $GLOBALS['root'] . "/modules/crypt.php";
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
+if ($_SERVER['REQUEST_METHOD'] === "GET") {
     $data = json_decode(file_get_contents("php://input"));
     $header = getallheaders();
     if (count($data) > 0) {

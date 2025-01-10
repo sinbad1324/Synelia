@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 return;
             }
 
-            if (strlen($filtredData["mail"]) <= 0) {
+            if (!isset($filtredData["mail"]) && strlen($filtredData["mail"]) <= 0) {
                 echo json_encode(["message" => "Your mail is not validated.", "succ" => false]);
                 return;
             }
@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             }
             if (CreateNewUser($filtredData["firstName"]["data"], $filtredData["lastName"]["data"], Crypt::encrypt($filtredData["password"]["data"]), $filtredData["mail"]) == true) {
                 $userData = FindLastUser();
-                echo "http://localhost/Synelia/api/verifieMailCode.php?code=" . $userData['urlToVerified']."&userId=".$userData["userId"];
-                CreateNewBasket($userData["userId"]);
+                echo "http://localhost/Synelia/api/verifieMailCode.php?code=" . $userData["data"]['urlToVerified'] . "&userId=" . $userData["data"]["userId"];
+                CreateNewBasket($userData["data"]["userId"]);
                 echo json_encode(["message" => "We have successfully created your account.", "succ" => true]);
             }
         }

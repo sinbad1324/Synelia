@@ -20,9 +20,8 @@ function FindOneUserWithId($id): array
    $conn = Connection::GetConnection("Synelia");
    $result = $conn->query("SELECT * FROM User WHERE userId = '$id';");
    if ($result)
-      return mysqli_fetch_array($result, MYSQLI_ASSOC);
-   else
-      return [];
+      return ["data" => mysqli_fetch_array($result, MYSQLI_ASSOC), "succ" => true];
+   return ["data" => null, "succ" => false];
 }
 
 function FindOneUserWithVerifyCode($code): array
@@ -35,7 +34,6 @@ function FindOneUserWithVerifyCode($code): array
          return ["data" => $newResult, "succ" => true];
    }
    return ["data" => null, "succ" => false];
-
 }
 
 
@@ -61,9 +59,9 @@ function FindLastUser(): array
    $conn = Connection::GetConnection("Synelia");
    $result = $conn->query("SELECT * FROM User ORDER BY userId DESC LIMIT 1;");
    if ($result)
-      return mysqli_fetch_array($result, MYSQLI_ASSOC);
+      return ["data" => mysqli_fetch_array($result, MYSQLI_ASSOC), "succ" => true];
    else
-      return [];
+      return ["data" => null, "succ" => false];
 }
 
 function CreateNewBasket($userID): array
