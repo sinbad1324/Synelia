@@ -1,5 +1,19 @@
 <?php
 
+
+function VerifieToken($token) : array {
+    if (!is_string($token)) 
+        return ["data" => "", "error" => "we do not accept this type of data." ,"succ"=>false];
+    if (strlen($token) > 41)
+        return ["data" => "", "error" => "Refused tokens!" ,"succ"=>false];
+    if (ctype_space($token))
+        return ["data" => "", "error" => "Your token is weird!" ,"succ"=>false];
+    // if (msqli($token)) 
+    //     return ["data" => "", "error" => "we do not accept this type of data." ,"succ"=>false];
+
+    return ["data" => $token, "error" => "" ,"succ"=>true];
+}
+
 function FilterString($name): array
 {
     if (!is_string($name)) {

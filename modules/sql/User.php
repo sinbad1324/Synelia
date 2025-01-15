@@ -4,6 +4,7 @@ include $GLOBALS['root'] . "/modules/sql/connection.php";
 include $GLOBALS['root'] . "/modules/shuffl.php";
 
 
+
 function CreateNewUser($firstName, $lastName, $password, $email): array
 {
    $conn = Connection::GetConnection("Synelia");
@@ -23,7 +24,14 @@ function FindOneUserWithId($id): array
       return ["data" => mysqli_fetch_array($result, MYSQLI_ASSOC), "succ" => true];
    return ["data" => null, "succ" => false];
 }
-
+function FindOneUserWithToken($token): array
+{
+   $conn = Connection::GetConnection("Synelia");
+   $result = $conn->query("SELECT * FROM User WHERE connectionToken = '$token';");
+   if ($result)
+      return ["data" => mysqli_fetch_array($result, MYSQLI_ASSOC), "succ" => true];
+   return ["data" => null, "succ" => false];
+}
 function FindOneUserWithVerifyCode($code): array
 {
    $conn = Connection::GetConnection("Synelia");

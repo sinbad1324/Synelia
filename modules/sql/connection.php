@@ -10,22 +10,15 @@
  * @param string $dbName 
  * @return T
  */
-
 class Connection
 {
-    static private $connection;
+    static private $connections = [];
     static public function GetConnection($dbName)
     {
-        if (empty(self::$connection)) {
-            self::$connection = new mysqli("localhost", "root", "1324", $dbName);
-            if (!self::$connection) {
-                echo "connection false " . mysqli_connect_error();
-                return null;
-            }
-            return self::$connection;
-        } else {
-            return self::$connection;
+        if (!self::$connections[$dbName]) {
+            self::$connections[$dbName] = new mysqli("localhost", "root", "1324", $dbName);
         }
+        return self::$connections[$dbName];
     }
 }
 

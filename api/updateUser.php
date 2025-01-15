@@ -13,7 +13,16 @@ if ($_SERVER['REQUEST_METHOD'] == "PATCH") {
         if (!is_int($id)) {
             return;
         }
-        $user = FindOneUserWithId($id);
+        if (!isset($data["connectionToken"])) {
+            echo json_encode(value: ["message" => "We have a problem with your token!", "succ" => false]);
+        }
+        $verifieToken = VerifieToken($data["connectionToken"]);
+        if (!$verifieToken["succ"]) {
+            echo json_encode($verifieToken);
+            return ;
+        }
+        
+        $user = FindOneUserWithToken(Crypt::encrypt($data["connectionToken"]));
         if (!$user["succ"] || $user["data"] == null) {
             echo "not user";
             return;
@@ -28,11 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] == "PATCH") {
             return;
         }
         if (strlen($filtredData["password"]["error"]) >= 1) {
-            echo json_encode(["message" => $filtredData["password"]["error"], "succ" => false]);
+            echo json_encode(value: ["message" => $filtredData["password"]["error"], "succ" => false]);
             return;
         }
-
-        echo isset($data["mail"]);
+        
         $changement = "";
         if (isset($data["mail"])) {
             if (strlen($filtredData["mail"]) <= 0) {

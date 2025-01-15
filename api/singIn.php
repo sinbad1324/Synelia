@@ -4,9 +4,11 @@ include $GLOBALS['root'] . "/modules/sql/User.php";
 include $GLOBALS['root'] . "/modules/sql/Basket.php";
 include $GLOBALS['root'] . "/modules/filters/filterUser.php";
 include $GLOBALS['root'] . "/modules/crypt.php";
+
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
-    $data = json_decode(file_get_contents("php://input"));
+    $data = $_GET;
     $header = getallheaders();
+    try {
     if (count($data) > 0) {
         $filtredData = filter_var_array($data, $filter);
         if (strlen($filtredData["mail"]) <= 0) {
@@ -31,7 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             echo json_encode(value: ["message" => "You still haven't verified your account.", "succ" => false]);
             return;
         }
-        echo json_encode(value: ["message" => "You are well connected.", "succ" => true]);
+            $token = RandomText(0,40).$user["userId"];
+            $conn = Connection::GetConnection("Synelia");
+            $encryptToken = Crypt::encrypt($token);
+            $conn->query("UPDATE User SET connectionToken='$encryptToken' , connectedDate=NOW()");
+            echo json_encode(value: ["message" => "You are well connected.", "data"=>["Token"=>$token], "succ" => true]);
+        } 
+    }catch (\Throwable $th) {
+        echo $th;
     }
 
 }
