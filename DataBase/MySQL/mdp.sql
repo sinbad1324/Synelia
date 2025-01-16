@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Product(
     produitId INT UNSIGNED NOT NULL AUTO_INCREMENT,
     produitName VARCHAR(100) NOT NULL,
     prix DECIMAL(10,2) NOT NULL,
-    stock ENUM("full" , "exhaust" ,"half"),
+    stock ENUM("full" , "exhaust" ,"half") DEFAULT "exhaust",
     totalStock int UNSIGNED NOT NULL,
     marque VARCHAR(20) NOT NULL,
     description TEXT NULL,
@@ -130,6 +130,24 @@ ADD CONSTRAINT FK_categoriser_avisId FOREIGN KEY (categorieId) REFERENCES Catego
 
 ALTER TABLE Categoriser 
 ADD CONSTRAINT FK_categoriser_produitId  FOREIGN KEY (produitId) REFERENCES Product(produitId) ;
+
+
+INSERT categorieName, CategorieDescription INTO Categorie VALUES 
+("Sportifs", "Cette catégorie est destinée aux amateurs de sport et d'activités physiques, avec des parfums frais et énergisants."),
+("Luxueux", "Une catégorie pour ceux qui recherchent l'élégance et la sophistication, avec des parfums aux notes raffinées."),
+("Fruités", "Des parfums aux senteurs sucrées et légères, idéaux pour ceux qui aiment les arômes fruités."),
+("Floraux", "Une catégorie qui met en avant des senteurs florales délicates et élégantes, parfaite pour le printemps."),
+("Boisés", "Pour les amateurs de senteurs naturelles et chaudes, inspirées des bois et de la terre."),
+("Orientaux", "Des parfums exotiques et mystérieux avec des notes épicées et ambrées."),
+("Citrus", "Des parfums frais et vivifiants, avec des notes d'agrumes parfaites pour les journées ensoleillées."),
+("Gourmands", "Pour les amateurs de parfums sucrés rappelant les desserts et les gourmandises."),
+("Unisexes", "Des parfums conçus pour convenir aussi bien aux hommes qu'aux femmes."),
+("Été", "Une sélection de parfums légers et rafraîchissants, parfaits pour les journées chaudes."),
+("Hiver", "Des parfums riches et chaleureux pour les saisons froides."),
+("Vintage", "Pour ceux qui recherchent des parfums classiques et intemporels, inspirés des années passées."),
+("Modernes", "Des senteurs innovantes et tendances pour le monde d'aujourd'hui."),
+("Nocturnes", "Des parfums envoûtants et sensuels, idéaux pour les soirées."),
+("Juvéniles", "Des parfums légers et fun, parfaits pour les plus jeunes ou pour ceux qui aiment des senteurs pétillantes.");
 
 
 
