@@ -3,10 +3,11 @@ $GLOBALS["root"] = $_SERVER['DOCUMENT_ROOT'] . "/Synelia";
 include $GLOBALS['root'] . "/modules/sql/connection.php";
 include $GLOBALS['root'] . "/modules/shuffl.php";
 
-function CreateNewProduct(): Returntype
+function CreateNewProduct($produitName, $prix, $totalStock, $marque, $categorieId): Returntype
 {
     $CONN = Connection::GetConnection("Synelia");
-    $CONN->query("INSERT produitName , prix , totalStock , marque  INTO Product VALUES ()");
+    $CONN->query("INSERT INTO Product( produitName , prix , totalStock , marque)  VALUES ('$produitName' , '$prix','$totalStock','$marque')");
+
 }
 
 function UpdateProduct(): Returntype
