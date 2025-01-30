@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS Avis (
 CREATE TABLE IF NOT EXISTS Categorie(
     categorieId INT UNSIGNED NOT NULL AUTO_INCREMENT,
     categorieName VARCHAR(30) NOT NULL,
-    CategorieDescription TEXT NULL,
+    CategorieDescription TEXT ,
     PRIMARY KEY(categorieId)
 )ENGINE=InnoDB;
 
@@ -131,7 +131,7 @@ ALTER TABLE Categoriser
 ADD CONSTRAINT FK_categoriser_produitId  FOREIGN KEY (produitId) REFERENCES Product(produitId) ;
 
 
-INSERT categorieName, CategorieDescription INTO Categorie VALUES 
+INSERT INTO Categorie(categorieName, CategorieDescription )  VALUES 
 ("Sportifs", "Cette catégorie est destinée aux amateurs de sport et d'activités physiques, avec des parfums frais et énergisants."),
 ("Luxueux", "Une catégorie pour ceux qui recherchent l'élégance et la sophistication, avec des parfums aux notes raffinées."),
 ("Fruités", "Des parfums aux senteurs sucrées et légères, idéaux pour ceux qui aiment les arômes fruités."),

@@ -1,0 +1,20 @@
+meta {
+  name: updateUser
+  type: http
+  seq: 4
+}
+
+patch {
+  url: http://localhost/Synelia/api/updateUser.php
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "firstName":"mono",
+      "lastName":"Abdoul",
+      "userId":1,
+      "connectionToken":"UvDu3gjabcEo9GeQYtBrCqzzmR1ysIFKkxf0wXnT1"
+  }
+}

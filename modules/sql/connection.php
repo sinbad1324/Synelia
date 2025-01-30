@@ -15,9 +15,8 @@ class Connection
     static private $connections = [];
     static public function GetConnection($dbName)
     {
-        if (!self::$connections[$dbName]) {
-            self::$connections[$dbName] = new PDO("localhost", "root", "1324", $dbName);
-        }
+        if (!self::$connections[$dbName])
+            self::$connections[$dbName] = new PDO("mysql:host=localhost;dbname=$dbName", "root", "1324");
         return self::$connections[$dbName];
     }
 }

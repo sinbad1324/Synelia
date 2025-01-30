@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         return;
     }
     if (time() - strtotime($user["data"]['verifieTime']) <= (3600 * 12)) {
-        if ($conn->query(query: "UPDATE User SET verified=TRUE, urlToVerified = NULL WHERE userId = '$id';") === true)
+        if ($conn->exec("UPDATE User SET verified=TRUE, urlToVerified = NULL WHERE userId = '$id';"))
             echo "updated";
     } else {
         echo "False";
