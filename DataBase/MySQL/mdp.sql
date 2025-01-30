@@ -37,6 +37,8 @@ CREATE TABLE IF NOT EXISTS PromotionCode(
     promotionId INT UNSIGNED NOT NULL AUTO_INCREMENT,
     code VARCHAR(100) NOT NULL,
     soldes DECIMAL(3,2),
+    expirationDate DATETIME NOT NULL,
+    nbToProduct VARCHAR(10) DEFAULT "1",
     PRIMARY KEY(promotionId)
 )ENGINE=InnoDB;
 
