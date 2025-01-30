@@ -16,7 +16,7 @@ class Connection
     static public function GetConnection($dbName)
     {
         if (!self::$connections[$dbName]) {
-            self::$connections[$dbName] = new mysqli("localhost", "root", "1324", $dbName);
+            self::$connections[$dbName] = new PDO("localhost", "root", "1324", $dbName);
         }
         return self::$connections[$dbName];
     }

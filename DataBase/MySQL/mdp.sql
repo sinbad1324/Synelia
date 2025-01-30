@@ -44,7 +44,6 @@ CREATE TABLE IF NOT EXISTS Product(
     produitId INT UNSIGNED NOT NULL AUTO_INCREMENT,
     produitName VARCHAR(100) NOT NULL,
     prix DECIMAL(10,2) NOT NULL,
-    stock ENUM("full" , "exhaust" ,"half") DEFAULT "exhaust",
     totalStock int UNSIGNED NOT NULL,
     marque VARCHAR(20) NOT NULL,
     description TEXT NULL,

@@ -7,6 +7,8 @@ function CreateNewProduct($produitName, $prix, $totalStock, $marque, $categorieI
 {
     $CONN = Connection::GetConnection("Synelia");
     $CONN->query("INSERT INTO Product( produitName , prix , totalStock , marque)  VALUES ('$produitName' , '$prix','$totalStock','$marque')");
+    $CONN->prepare("INSERT INTO Product( produitName , prix , totalStock , marque)  VALUES (?,?,?,?)");
+    $CONN->bindParam();
 
 }
 

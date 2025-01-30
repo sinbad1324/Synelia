@@ -10,7 +10,13 @@ function CreateNewUser($firstName, $lastName, $password, $email): array
    $conn = Connection::GetConnection("Synelia");
    $newUrl = RandomText(1, 21);
    if (!empty($conn)) {
-      if ($conn->query("INSERT INTO User (firstName,lastName,birthDay,mail,password,status , urlToVerified , verifieTime) VALUES ('$firstName' ,'$lastName',NOW() , '$email', '$password' ,'user' ,'$newUrl' , NOW())") === true)
+      $conn->prepare("INSERT INTO User (firstName,lastName,birthDay,mail,password,status , urlToVerified , verifieTime) VALUES (? ,?,NOW() , ?, ? ,'user' ,? , NOW())");
+      $conn->bindParams(1, $firstName, PDO::PARAM_STR);
+      $conn->bindParams(2, $lastName, PDO::PARAM_STR);
+      $conn->bindParams(3, $email, PDO::PARAM_STR);
+      $conn->bindParams(4, $password, PDO::PARAM_STR);
+      $conn->bindParams(5, $newUrl, PDO::PARAM_STR);
+      if ($conn->execute() === true)
          return ["message" => "Your account has been created successfully!", "error" => "", "succ" => true];
    }
    return ["message" => "Your account could not be created!", "error" => mysqli_error($conn), "succ" => false];
