@@ -2,12 +2,13 @@
 $GLOBALS["root"] = $_SERVER['DOCUMENT_ROOT'] . "/Synelia";
 include $GLOBALS['root'] . "/modules/crypt.php";
 include $GLOBALS['root'] . "/modules/sql/product.php";
+include $GLOBALS['root'] . "/modules/sql/User.php";
 include $GLOBALS['root'] . "/modules/errorMessge.php";
 
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $RequestData = json_decode(file_get_contents("php://input"));
+        $RequestData = json_decode(file_get_contents("php://input"), true);
         echo json_encode($RequestData);
         $userData = $RequestData["userData"];
         $productData = $RequestData["productData"];
