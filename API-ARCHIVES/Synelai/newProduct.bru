@@ -4,8 +4,19 @@ meta {
   seq: 7
 }
 
-get {
+post {
   url: http://localhost/Synelia/api/products/newProduct.php
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "userData":{
+        "connectionToken" : ""
+    },
+    "productData":{
+      ""
+    }
+  }
 }

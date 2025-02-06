@@ -2,7 +2,7 @@
 $GLOBALS["root"] = $_SERVER['DOCUMENT_ROOT'] . "/Synelia";
 include $GLOBALS['root'] . "/modules/sql/connection.php";
 include $GLOBALS['root'] . "/modules/shuffl.php";
-
+include $GLOBALS['root'] . "/modules/passwordHash.php";
 
 
 function CreateNewUser($firstName, $lastName, $password, $email): array

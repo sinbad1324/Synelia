@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == "PATCH") {
         if ($filtredData['lastName']["data"] != null)
             $changement = $changement . "lastName='" . $filtredData['lastName']["data"] . "',";
         if ($filtredData['password']["data"] != null) {
-            $changement = $changement . "password='" . Crypt::encrypt($filtredData['password']["data"]) . "', ";
+            $changement = $changement . "password='" . pwdHash($filtredData['password']["data"]) . "', ";
             $conn->query(query: "UPDATE User SET connectionToken=NULL WHERE userId = '$id';");
         }
 

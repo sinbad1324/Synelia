@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             return;
         }
         $user = $finidedUser["data"];
-        if (Crypt::decrypt($user["password"]) != $filtredData["password"]["data"]) {
+        if (pwdHash($user["password"]) != $filtredData["password"]["data"]) {
             echo json_encode(["message" => "Your mail or passowrd  are not validated .", "succ" => false]);
             return;
         }

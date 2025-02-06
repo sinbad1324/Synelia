@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 echo json_encode(["message" => "Your mail is not validated .", "succ" => false]);
                 return;
             }
-            if (CreateNewUser($filtredData["firstName"]["data"], $filtredData["lastName"]["data"], Crypt::encrypt($filtredData["password"]["data"]), $filtredData["mail"]) == true) {
+            if (CreateNewUser($filtredData["firstName"]["data"], $filtredData["lastName"]["data"], pwdHash($filtredData["password"]["data"]), $filtredData["mail"]) == true) {
                 $userData = FindLastUser();
                 echo "http://localhost/Synelia/api/verifieMailCode.php?code=" . $userData["data"]['urlToVerified'] . "&userId=" . $userData["data"]["userId"];
                 CreateNewBasket($userData["data"]["userId"]);
@@ -55,6 +55,5 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     } catch (Throwable $th) {
         echo $th;
     }
-
 }
 ?>
