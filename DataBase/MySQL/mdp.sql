@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS User(
     lastName VARCHAR(50) NOT NULL,
     birthDay DATE NOT NULL,
     mail VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(150) NOT NULL,
     verified BOOLEAN DEFAULT FALSE,
     urlToVerified VARCHAR(25) NULL ,
     verifieTime DATETIME NOT NULL,

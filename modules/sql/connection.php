@@ -16,7 +16,12 @@ class Connection
     static public function GetConnection($dbName)
     {
         if (!self::$connections[$dbName])
-            self::$connections[$dbName] = new PDO("mysql:host=localhost;dbname=$dbName", "root", "1324");
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ];
+        self::$connections[$dbName] = new PDO("mysql:host=localhost;dbname=$dbName", "root", "1324", $options);
         return self::$connections[$dbName];
     }
 }

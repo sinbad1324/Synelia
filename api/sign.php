@@ -48,6 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             if (CreateNewUser($filtredData["firstName"]["data"], $filtredData["lastName"]["data"], pwdHash($filtredData["password"]["data"]), $filtredData["mail"]) == true) {
                 $userData = FindLastUser();
                 echo "http://localhost/Synelia/api/verifieMailCode.php?code=" . $userData["data"]['urlToVerified'] . "&userId=" . $userData["data"]["userId"];
+                if ($userData["succ"] == false)
+                    return;
                 CreateNewBasket($userData["data"]["userId"]);
                 echo json_encode(["message" => "We have successfully created your account.", "succ" => true]);
             }

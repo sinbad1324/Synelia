@@ -25,7 +25,7 @@ function CreateNewUser($firstName, $lastName, $password, $email): array
 function FindOneUserWithId($id): array
 {
    $conn = Connection::GetConnection("Synelia");
-   $result = $conn->exec("SELECT * FROM User WHERE userId = '$id';");
+   $result = $conn->query("SELECT * FROM User WHERE userId = '$id';");
    if ($result)
       return ["data" => $result->fetch(PDO::FETCH_ASSOC), "succ" => true];
    return ["data" => null, "succ" => false];
@@ -33,7 +33,7 @@ function FindOneUserWithId($id): array
 function FindOneUserWithToken($token): array
 {
    $conn = Connection::GetConnection("Synelia");
-   $result = $conn->exec("SELECT * FROM User WHERE connectionToken = '$token';");
+   $result = $conn->query("SELECT * FROM User WHERE connectionToken = '$token';");
    if ($result)
       return ["data" => $result->fetch(PDO::FETCH_ASSOC), "succ" => true];
    return ["data" => null, "succ" => false];
@@ -41,7 +41,7 @@ function FindOneUserWithToken($token): array
 function FindOneUserWithVerifyCode($code): array
 {
    $conn = Connection::GetConnection("Synelia");
-   $result = $conn->exec("SELECT * FROM User WHERE urlToVerified = '$code';");
+   $result = $conn->query("SELECT * FROM User WHERE urlToVerified = '$code';");
    if ($result) {
       $newResult = $result->fetch(PDO::FETCH_ASSOC);
       if ($newResult)
@@ -54,7 +54,7 @@ function FindOneUserWithVerifyCode($code): array
 function FindOneUserWithMail($email): array
 {
    $conn = Connection::GetConnection("Synelia");
-   $result = $conn->exec("SELECT * FROM User WHERE mail = '$email';");
+   $result = $conn->query("SELECT * FROM User WHERE mail = '$email';");
    if ($result) {
       $newResult = $result->fetch(PDO::FETCH_ASSOC);
       if ($newResult)
@@ -71,7 +71,7 @@ function FindUsers($Condition): array
 function FindLastUser(): array
 {
    $conn = Connection::GetConnection("Synelia");
-   $result = $conn->exec("SELECT * FROM User ORDER BY userId DESC LIMIT 1;");
+   $result = $conn->query("SELECT * FROM User ORDER BY userId DESC LIMIT 1;");
    if ($result)
       return ["data" => $result->fetch(PDO::FETCH_ASSOC), "succ" => true];
    else
@@ -81,10 +81,22 @@ function FindLastUser(): array
 function CreateNewBasket($userID): array
 {
    $conn = Connection::GetConnection("Synelia");
-   $sth = $conn->exec("INSERT INTO Basket (userId) VALUES ('$userID')");
+   $sth = $conn->query("INSERT INTO Basket (userId) VALUES ('$userID')");
    if ($sth)
       return ["message" => "Your Basket has been created successfully!", "error" => "", "succ" => true];
    else
       return ["message" => "Your Basket could not be created!", "error" => $conn->errorInfo(), "succ" => false];
+}
+
+function SetNewTokenForUser($userID): array
+{
+   $connectionToken = password_hash(RandomText(1, 20));
+
+   $conn = Connection::GetConnection("Synelia");
+   $sth = $conn->query("UPDATE User SET connectionToken=$connectionToken WHERE userId=$userID");
+   if ($sth)
+      return ["message" => "Your Token has been created successfully!", "data" => $connectionToken, "error" => "", "succ" => true];
+   else
+      return ["message" => "Your Token could not be created!", "error" => $conn->errorInfo(), "succ" => false];
 }
 ?>
