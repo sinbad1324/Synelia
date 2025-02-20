@@ -5,22 +5,6 @@ include $GLOBALS['root'] . "/modules/shuffl.php";
 include $GLOBALS['root'] . "/modules/passwordHash.php";
 
 
-function CreateNewUser($firstName, $lastName, $password, $email): array
-{
-   $conn = Connection::GetConnection("Synelia");
-   $newUrl = RandomText(1, 21);
-   if (!empty($conn)) {
-      $sth = $conn->prepare("INSERT INTO User (firstName,lastName,birthDay,mail,password,status , urlToVerified , verifieTime) VALUES (? ,?,NOW() , ?, ? ,'user' ,? , NOW())");
-      $sth->bindParam(1, $firstName, PDO::PARAM_STR);
-      $sth->bindParam(2, $lastName, PDO::PARAM_STR);
-      $sth->bindParam(3, $email, PDO::PARAM_STR);
-      $sth->bindParam(4, $password, PDO::PARAM_STR);
-      $sth->bindParam(5, $newUrl, PDO::PARAM_STR);
-      if ($sth->execute() === true)
-         return ["message" => "Your account has been created successfully!", "error" => "", "succ" => true];
-   }
-   return ["message" => "Your account could not be created!", "error" => mysqli_error($conn), "succ" => false];
-}
 
 function FindOneUserWithId($id): array
 {
@@ -90,13 +74,31 @@ function CreateNewBasket($userID): array
 
 function SetNewTokenForUser($userID): array
 {
-   $connectionToken = password_hash(RandomText(1, 20));
-
+   $connectionTokenNormal = RandomText(1, 20);
+   $connectionTokenHashed = hash_hmac('sha256', $connectionTokenNormal, "M7aXbdrwiXX0yzqdodlWqg==$userID");
    $conn = Connection::GetConnection("Synelia");
-   $sth = $conn->query("UPDATE User SET connectionToken=$connectionToken WHERE userId=$userID");
-   if ($sth)
-      return ["message" => "Your Token has been created successfully!", "data" => $connectionToken, "error" => "", "succ" => true];
+   $sth = $conn->prepare("UPDATE User SET connectionToken=? WHERE userId=?");
+   $sth->bindParam(1, $connectionTokenHashed, PDO::PARAM_STR);
+   $sth->bindParam(2, $userID, PDO::PARAM_STR);
+   if ($sth->execute() === true)
+      return ["message" => "Your Token has been created successfully!", "data" => $connectionTokenHashed, "error" => "", "succ" => true];
    else
       return ["message" => "Your Token could not be created!", "error" => $conn->errorInfo(), "succ" => false];
+}
+function CreateNewUser($firstName, $lastName, $password, $email): array
+{
+   $conn = Connection::GetConnection("Synelia");
+   $newUrl = RandomText(1, 21);
+   if (!empty($conn)) {
+      $sth = $conn->prepare("INSERT INTO User (firstName,lastName,birthDay,mail,password,status , urlToVerified , verifieTime) VALUES (? ,?,NOW() , ?, ? ,'user' ,? , NOW())");
+      $sth->bindParam(1, $firstName, PDO::PARAM_STR);
+      $sth->bindParam(2, $lastName, PDO::PARAM_STR);
+      $sth->bindParam(3, $email, PDO::PARAM_STR);
+      $sth->bindParam(4, $password, PDO::PARAM_STR);
+      $sth->bindParam(5, $newUrl, PDO::PARAM_STR);
+      if ($sth->execute() === true)
+         return ["message" => "Your account has been created successfully!", "error" => "", "succ" => true];
+   }
+   return ["message" => "Your account could not be created!", "error" => mysqli_error($conn), "succ" => false];
 }
 ?>

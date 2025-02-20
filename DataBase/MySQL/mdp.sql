@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS User(
     verified BOOLEAN DEFAULT FALSE,
     urlToVerified VARCHAR(25) NULL ,
     verifieTime DATETIME NOT NULL,
-    connectionToken VARCHAR(100) NULL,
-    connectedDate DATETIME NULL,
+    connectionToken VARCHAR(250) NULL,
     PRIMARY KEY(userId)
 )ENGINE=InnoDB;
 

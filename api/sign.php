@@ -4,6 +4,7 @@ include $GLOBALS['root'] . "/modules/sql/User.php";
 include $GLOBALS['root'] . "/modules/sql/Basket.php";
 include $GLOBALS['root'] . "/modules/filters/filterUser.php";
 include $GLOBALS['root'] . "/modules/crypt.php";
+include $GLOBALS['root'] . "/modules/JWT/JWT.php";
 
 define("UserDataStruct", [
     "firstName",
