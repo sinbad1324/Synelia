@@ -4,11 +4,11 @@ include $GLOBALS['root'] . "/modules/sql/User.php";
 include $GLOBALS['root'] . "/modules/sql/Basket.php";
 include $GLOBALS['root'] . "/modules/filters/filterUser.php";
 include $GLOBALS['root'] . "/modules/crypt.php";
+include $GLOBALS['root'] . "/modules/JWT/JWT.php";
 
 
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
     try {
-        include $GLOBALS['root'] . "/modules/JWT/JWT.php";
         $data = json_decode(file_get_contents("php://input"), true);
         $header = getallheaders();
         $filtredData = filter_var_array($data, $filter);
@@ -36,10 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         }
         $token = SetNewTokenForUser($user["userId"]);
         $efwef = 23;
-
         $userJWT = new JWT($token, $user["firstName"], 7);
-        var_dump(JWT::IsValidateJWT($userJWT->GenerateJWT($user["userId"]), $user["userId"]));
-        echo json_encode(value: ["message" => "You are well connected.", "succ" => true]);
+        $US = $userJWT->GenerateJWT($user["userId"]);
+        echo json_encode(value: [
+            "message" => "You are well connected.",
+            "data" => $US,
+            "succ" => true
+        ]);
     } catch (\Throwable $th) {
         echo $th;
     }
