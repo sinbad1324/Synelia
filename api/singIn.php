@@ -5,8 +5,6 @@ include $GLOBALS['root'] . "/modules/sql/Basket.php";
 include $GLOBALS['root'] . "/modules/filters/filterUser.php";
 include $GLOBALS['root'] . "/modules/crypt.php";
 include $GLOBALS['root'] . "/modules/JWT/JWT.php";
-
-
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
     try {
         $data = json_decode(file_get_contents("php://input"), true);

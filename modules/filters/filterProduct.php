@@ -6,6 +6,8 @@ function FilterForIDs($id): array
         return ["data" => null, "message" => "Votre id doit etre plus grand que 0.", "succ" => false];
     if (!is_int($id))
         return ["data" => null, "message" => "Votre id doit etre du type int.", "succ" => false];
+    if (!filter_var($id ,FILTER_VALIDATE_INT))
+             return ["data" => null, "message" => "Votre id doit etre du type int.", "succ" => false];
     return ["data" => $id, "message" => "", "succ" => true];
 }
 
@@ -17,7 +19,7 @@ function FilterName($str): array
         return ["data" => null, "message" => "Votre valeur doit etre du type string.", "succ" => false];
     if (!preg_match("/[^a-zA-Z]/"))
         return ["data" => null, "message" => "Votre valeur doit etre composé que de a-zA-Z", "succ" => false];
-    return ["data" => $str, "message" => "", "succ" => true];
+    return ["data" => filter_var($str , FILTER_SANITIZE_SPECIAL_CHARS), "message" => "", "succ" => true];
 }
 function DecimalPrix($prix): array
 {

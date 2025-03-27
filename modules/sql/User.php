@@ -1,8 +1,8 @@
 <?php
 $GLOBALS["root"] = $_SERVER['DOCUMENT_ROOT'] . "/Synelia";
-include $GLOBALS['root'] . "/modules/sql/connection.php";
-include $GLOBALS['root'] . "/modules/shuffl.php";
-include $GLOBALS['root'] . "/modules/passwordHash.php";
+include_once $GLOBALS['root'] . "/modules/sql/connection.php";
+include_once $GLOBALS['root'] . "/modules/shuffl.php";
+include_once $GLOBALS['root'] . "/modules/passwordHash.php";
 
 
 
