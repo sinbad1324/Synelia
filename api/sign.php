@@ -14,9 +14,10 @@ define("UserDataStruct", [
 ]);
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $data = json_decode(file_get_contents("php://input"), true);
+    echo $data; 
     $header = getallheaders();
     try {
-        if (isset($data) && isset($header)) {
+        if ($data != null && $header != null) {
             $filtredData = filter_var_array($data, $filter);
             for ($i = 0; $i < count(UserDataStruct); $i++) {
                 $element = UserDataStruct[$i];

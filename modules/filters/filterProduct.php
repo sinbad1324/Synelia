@@ -33,32 +33,32 @@ function DecimalPrix($prix): array
 }
 $FilterProduct = [
     "produitName" => [
-        "filter" => FILTER_CALLBACK,
+        "filter" => FILTER_SANITIZE_SPECIAL_CHARS ,
         "flag" => FILTER_FORCE_ARRAY,
         "options" => ""
     ],
     "prix" => [
-        "filter" => FILTER_CALLBACK,
+        "filter" => FILTER_SANITIZE_NUMBER_FLOAT,
         "flag" => FILTER_FORCE_ARRAY,
         "options" => ""
     ],
     "totalStock" => [
-        "filter" => FILTER_CALLBACK,
+        "filter" => FILTER_VALIDATE_INT,
         "flag" => FILTER_FORCE_ARRAY,
         "options" => ""
     ],
     "marque" => [
-        "filter" => FILTER_CALLBACK,
+        "filter" => FILTER_SANITIZE_SPECIAL_CHARS ,
         "flag" => FILTER_FORCE_ARRAY,
         "options" => ""
     ],
     "Description" => [
-        "filter" => FILTER_CALLBACK,
+        "filter" => FILTER_SANITIZE_SPECIAL_CHARS ,
         "flag" => FILTER_FORCE_ARRAY,
         "options" => ""
     ],
     "categorieID" => [
-        "filter" => FILTER_CALLBACK,
+        "filter" => FILTER_VALIDATE_INT,
         "flag" => FILTER_FORCE_ARRAY,
         "options" => ""
     ],

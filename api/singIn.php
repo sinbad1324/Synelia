@@ -5,7 +5,16 @@ include $GLOBALS['root'] . "/modules/sql/Basket.php";
 include $GLOBALS['root'] . "/modules/filters/filterUser.php";
 include $GLOBALS['root'] . "/modules/crypt.php";
 include $GLOBALS['root'] . "/modules/JWT/JWT.php";
-if ($_SERVER['REQUEST_METHOD'] === "GET") {
+/*
+DATA NEED
+mail
+password
+
+*/
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     try {
         $data = json_decode(file_get_contents("php://input"), true);
         $header = getallheaders();
@@ -36,11 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
         $efwef = 23;
         $userJWT = new JWT($token, $user["firstName"], 7);
         $US = $userJWT->GenerateJWT($user["userId"]);
-        echo json_encode(value: [
+        
+        echo json_encode([
             "message" => "You are well connected.",
-            "data" => $US,
+            "data" => mb_convert_encoding($US, 'UTF-8', 'auto'),
             "succ" => true
-        ]);
+        ],JSON_INVALID_UTF8_SUBSTITUTE);
     } catch (\Throwable $th) {
         echo $th;
     }

@@ -1,17 +1,18 @@
 <?php
 $GLOBALS["root"] = $_SERVER['DOCUMENT_ROOT'] . "/Synelia";
 include $GLOBALS['root'] . "/modules/sql/User.php";
-$conn = Connection::GetConnection("Synelia");
+include_once $GLOBALS['root'] . "/modules/errorMessge.php";
 
+$conn = Connection::GetConnection("Synelia");
 if ($_SERVER['REQUEST_METHOD'] == "GET") {
     $code = $_GET["code"];
     $id = $_GET["userId"];
     if (!$id || !$code) {
-        echo "puff";
+        return RtError(["Message"=>"TPuff!! void! " , "succ"=>false]);
         return;
     }
     if (strlen($code) >= 21) {
-        echo "Not valide code!";
+        return RtError(["Message"=>"This code is not valide" , "succ"=>false]);
         return;
     }
     if (intval($id) <= 0) {
@@ -19,16 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
     }
     $user = FindOneUserWithId(id: $id);
     if (!$user) {
-        echo "not user";
+        return RtError(["Message"=>"This user is not valide" , "succ"=>false]);
         return;
     }
     if ($user["data"]["urlToVerified"] != $code) {
-        echo "not same url";
-        return;
+        return RtError(["Message"=>"This url is not valide" , "succ"=>false]);
+
     }
     if (time() - strtotime($user["data"]['verifieTime']) <= (3600 * 12)) {
         if ($conn->exec("UPDATE User SET verified=TRUE, urlToVerified = NULL WHERE userId = '$id';"))
-            echo "updated";
+            return RtError(["Message"=>"Your mail is verified!" , "succ"=>true]);
     } else {
         echo "False";
     }

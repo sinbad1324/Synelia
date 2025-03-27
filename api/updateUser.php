@@ -1,8 +1,9 @@
 <?php
 $GLOBALS["root"] = $_SERVER['DOCUMENT_ROOT'] . "/Synelia";
-include $GLOBALS['root'] . "/modules/sql/User.php";
-include $GLOBALS['root'] . "/modules/filters/filterUser.php";
-include $GLOBALS['root'] . "/modules/crypt.php";
+include_once $GLOBALS['root'] . "/modules/sql/User.php";
+include_once $GLOBALS['root'] . "/modules/filters/filterUser.php";
+include_once $GLOBALS['root'] . "/modules/crypt.php";
+include_once $GLOBALS['root'] . "/modules/errorMessge.php";
 
 if ($_SERVER['REQUEST_METHOD'] == "PATCH") {
     try {
@@ -19,33 +20,29 @@ if ($_SERVER['REQUEST_METHOD'] == "PATCH") {
         $user = FindOneUserWithId($id);
         if (!$user["succ"] || $user["data"] == null) {
             echo "not user";
-            return;
+            return RtError(["Message"=>"This user dont exist!", "succ"=>false]);
         }
         #...UpdateCode
         if (strlen(string: $filtredData["firstName"]["error"]) >= 1) {
-            echo json_encode(["message" => $filtredData["firstName"]["error"], "succ" => false]);
-            return;
+            return RtError(["message" => $filtredData["firstName"]["error"], "succ" => false]);
         }
         if (strlen($filtredData["lastName"]["error"]) >= 1) {
-            echo json_encode(["message" => $filtredData["lastName"]["error"], "succ" => false]);
-            return;
+            return RtError(["message" => $filtredData["lastName"]["error"], "succ" => false]);
         }
         if (strlen($filtredData["password"]["error"]) >= 1) {
-            echo json_encode(["message" => $filtredData["password"]["error"], "succ" => false]);
-            return;
+            return RtError(["message" => $filtredData["password"]["error"], "succ" => false]);
         }
 
         echo isset($data["mail"]);
         $changement = "";
         if (isset($data["mail"])) {
             if (strlen($filtredData["mail"]) <= 0) {
-                echo json_encode(["message" => "Your mail is not validated.", "succ" => false]);
-                return;
+                return RtError(["message" => "Your mail is not validated.", "succ" => false]);
             }
             $sqlQuery = $changement . "mail='" . $filtredData['mail'] . "' ";
             $newCode = RandomText(1, 21);
             $conn->query(query: "UPDATE User SET verified=FALSE, urlToVerified ='$newCode' ,verifieTime=NOW() ,connectionToken=NULL WHERE userId = '$id';");
-            echo "http://localhost/Synelia/api/verifieMailCode.php?code=" . $newCode . "&userId=" . $id;
+            echo "http://localhost:8080/Synelia/api/verifieMailCode.php?code=" . $newCode . "&userId=" . $id;
         }
         if ($filtredData['firstName']["data"] != null)
             $changement = $changement . "firstName='" . $filtredData['firstName']["data"] . "',";
