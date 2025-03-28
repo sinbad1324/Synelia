@@ -23,7 +23,7 @@ try {
         
         // JTW VERIFIECATIION USER VERIFICATION
        
-            $filtredData = filter_var_array($productData,$FilterProduct);
+        $filtredData = filter_var_array($productData,$FilterProduct);
         $data = CreateNewProduct(produitName:$filtredData["produitName"] , prix: $filtredData["prix"], totalStock: $filtredData["totalStock"], marque: $filtredData["marque"], Description: $filtredData["Description"], categorieID: $filtredData["categorieID"]);
         if ($data && $data["succ"] != false) {
             $productID = $data["data"]["id"];
