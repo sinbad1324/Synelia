@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         
         echo json_encode([
             "message" => "You are well connected.",
-            "data" => mb_convert_encoding($US, 'UTF-8', 'auto'),
+            "data" => $US,
             "succ" => true
         ],JSON_INVALID_UTF8_SUBSTITUTE);
     } catch (\Throwable $th) {

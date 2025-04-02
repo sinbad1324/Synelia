@@ -45,13 +45,9 @@ function FindOneUserWithMail($email): array
          return ["data" => $newResult, "succ" => true];
    }
    return ["data" => null, "succ" => false];
-
 }
 
-function FindUsers($Condition): array
-{
-
-}
+function FindUsers($Condition): array {}
 function FindLastUser(): array
 {
    $conn = Connection::GetConnection("Synelia");
@@ -101,4 +97,22 @@ function CreateNewUser($firstName, $lastName, $password, $email): array
    }
    return ["message" => "Your account could not be created!", "error" => mysqli_error($conn), "succ" => false];
 }
-?>
+
+function UserDataVerification($userData): array
+{
+   if ($userData != null && count($userData) <= 0)
+      return ["message" => "Il vous manque des information! (USER ID)", "succ" => false];
+   $user = FindOneUserWithToken($userData["connectionToken"]);
+   if (!$user)
+      return ["message" => "Vous êtes pas trouver!", "succ" => false];
+
+   // JTW VERIFIECATIION USER VERIFICATION
+   if (!isset($userData["JWT"]))
+      return ["message" => "Vous avez pas de JWT!", "succ" => false];
+   $isValidJwt = JWT::IsValidateJWT($userData["JWT"], $user["data"]["userId"]);
+   if ($isValidJwt == null)
+      return ["message" => "Il y a eu un prob avec votre JWT!", "succ" => false];
+   if ($isValidJwt != null && $isValidJwt["succ"] == false)
+      return $isValidJwt;
+   return ["message"=>"","data"=>$user["data"] , "succ"=>true];
+}

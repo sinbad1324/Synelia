@@ -11,26 +11,25 @@ try {
         $RequestData = json_decode(file_get_contents("php://input"), true);
         $userData = $RequestData["userData"];
         $productData = $RequestData["productData"];
-        if ($userData !=null && count($userData) <= 0)
-            return RtError(["message" => "Il vous manque des information! (USER ID)", "succ" => false]);
-        if ($userData !=null && count($productData) <= 0)
+        if ($productData != null && count($productData) <= 0)
             return RtError(message: ["message" => "Il vous manque des information!", "succ" => false]);
-        $user = FindOneUserWithToken($userData["connectionToken"]);
-        if (!$user)
-            return RtError(["message" => "Vous êtes pas trouver!", "succ" => false]);
-        if ( !isset($user["data"]["status"]) || $user["data"]["status"] !== "admin")
-            return RtError(["message" => "Vous avez pas les accées!", "succ" => false]);
-        
-        // JTW VERIFIECATIION USER VERIFICATION
        
-        $filtredData = filter_var_array($productData,$FilterProduct);
-        $data = CreateNewProduct(produitName:$filtredData["produitName"] , prix: $filtredData["prix"], totalStock: $filtredData["totalStock"], marque: $filtredData["marque"], Description: $filtredData["Description"], categorieID: $filtredData["categorieID"]);
+       
+        $userVerification = UserDataVerification($userData);
+        if ($userVerification["succ"] == false) 
+            return RtError($userVerification);
+
+        $user = $userVerification["data"];
+        if (!isset($user["status"]) || $user["data"]["status"] !== "admin")
+            return ["message" => "Vous avez pas les accées!", "succ" => false];
+        
+        $filtredData = filter_var_array($productData, $FilterProduct);
+        $data = CreateNewProduct(produitName: $filtredData["produitName"], prix: $filtredData["prix"], totalStock: $filtredData["totalStock"], marque: $filtredData["marque"], Description: $filtredData["Description"], categorieID: $filtredData["categorieID"]);
         if ($data && $data["succ"] != false) {
             $productID = $data["data"]["id"];
-            // echo json_encode($data);
+            echo json_encode($data);
         }
     }
 } catch (\Throwable $th) {
     echo $th;
 }
-?>

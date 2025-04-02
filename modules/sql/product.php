@@ -38,7 +38,7 @@ function UpdateProductPrix($ProdID, $newPrix): bool
 {
     $CONN = Connection::GetConnection("Synelia");
     $sth = $CONN->prepare("UPDATE Product SET prix = ? WHERE produitId  = ?");
-    $sth->bindParam(1, $newName, PDO::PARAM_STR);
+    $sth->bindParam(1, $newPrix, PDO::PARAM_STR);
     $sth->bindParam(2, $ProdID, PDO::PARAM_INT);
     $sth->execute();
     if ($sth)
@@ -50,18 +50,18 @@ function UpdateProductStock($ProdID, $newStock): bool
 {
     $CONN = Connection::GetConnection("Synelia");
     $sth = $CONN->prepare("UPDATE Product SET totalStock = ? WHERE produitId  = ?");
-    $sth->bindParam(1, $newName, PDO::PARAM_INT);
+    $sth->bindParam(1, $newStock, PDO::PARAM_INT);
     $sth->bindParam(2, $ProdID, PDO::PARAM_INT);
     $sth->execute();
     if ($sth)
         return true;
     return false;
 }
-function UpdateProductMarque($ProdID, $newStock): bool
+function UpdateProductMarque($ProdID, $newmarque): bool
 {
     $CONN = Connection::GetConnection("Synelia");
     $sth = $CONN->prepare("UPDATE Product SET marque = ? WHERE produitId  = ?");
-    $sth->bindParam(1, $newName, PDO::PARAM_STR);
+    $sth->bindParam(1, $newmarque, PDO::PARAM_STR);
     $sth->bindParam(2, $ProdID, PDO::PARAM_INT);
     $sth->execute();
     if ($sth)
@@ -69,11 +69,11 @@ function UpdateProductMarque($ProdID, $newStock): bool
     return false;
 }
 
-function UpdateProductDescription($ProdID, $newStock): bool
+function UpdateProductDescription($ProdID, $newDescription): bool
 {
     $CONN = Connection::GetConnection("Synelia");
     $sth = $CONN->prepare("UPDATE Product SET description = ? WHERE produitId  = ?");
-    $sth->bindParam(1, $newName, PDO::PARAM_STR);
+    $sth->bindParam(1, $newDescription, PDO::PARAM_STR);
     $sth->bindParam(2, $ProdID, PDO::PARAM_INT);
     $sth->execute();
     if ($sth)

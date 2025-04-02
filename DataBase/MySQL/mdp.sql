@@ -20,15 +20,15 @@ CREATE TABLE IF NOT EXISTS User(
 
 CREATE TABLE IF NOT EXISTS Basket(
     basketId INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    basketStatus ENUM("inDelivery" , "stable" , "delivered") NOT NULL  DEFAULT  "stable", 
-    taxes DECIMAL(4,2) NOT NULL DEFAULT 15.50,
     userId INT UNSIGNED NOT NULL,
+    productIds VARCHAR(50),
     PRIMARY KEY(basketId)
 )ENGINE=InnoDB; 
 
 CREATE TABLE IF NOT EXISTS Commande(
     commandeId INT UNSIGNED NOT NULL AUTO_INCREMENT,
     quantity INT UNSIGNED DEFAULT 1,
+    CommandeStatus ENUM("inDelivery" , "stable" , "delivered") NOT NULL  DEFAULT  "stable", 
     deliveryDate DATETIME NOT NULL,
     PRIMARY KEY(commandeId)
 )ENGINE=InnoDB; 
@@ -65,11 +65,11 @@ CREATE TABLE IF NOT EXISTS Categorie(
     PRIMARY KEY(categorieId)
 )ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS Commander(
-    commandeId INT UNSIGNED ,
-    basketId INT UNSIGNED,
-    PRIMARY KEY(basketId,commandeId)
-)ENGINE=InnoDB;
+-- CREATE TABLE IF NOT EXISTS Commander(
+--     commandeId INT UNSIGNED ,
+--     basketId INT UNSIGNED,
+--     PRIMARY KEY(basketId,commandeId)
+-- )ENGINE=InnoDB;
 CREATE TABLE IF NOT EXISTS Choisire(
     commandeId INT UNSIGNED ,
     produitId INT UNSIGNED,
@@ -97,12 +97,12 @@ ADD CONSTRAINT FK_Basket_userID   FOREIGN KEY (userId) REFERENCES User(userId) ;
 
 
 
-ALTER TABLE Commander 
-ADD CONSTRAINT FK_commander_commandeId 
-FOREIGN KEY (commandeId) REFERENCES Commande(commandeId) ;
+-- ALTER TABLE Commander 
+-- ADD CONSTRAINT FK_commander_commandeId 
+-- FOREIGN KEY (commandeId) REFERENCES Commande(commandeId) ;
 
-ALTER TABLE Commander 
-ADD CONSTRAINT FK_commander_basketId   FOREIGN KEY (basketId) REFERENCES Basket(basketId) ;
+-- ALTER TABLE Commander 
+-- ADD CONSTRAINT FK_commander_basketId   FOREIGN KEY (basketId) REFERENCES Basket(basketId) ;
 
 
 ALTER TABLE Choisire 
